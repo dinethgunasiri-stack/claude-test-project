@@ -1,0 +1,30 @@
+.checkout-container {
+  min-height: calc(100vh - 150px);
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+
+  &.total {
+    font-size: 1.5rem;
+    font-weight: 700;
+
+    .total-price {
+      font-size: 2rem;
+    }
+  }
+}
+
+.invalid-feedback {
+  display: block;
+  color: #ff00ff;
+}
+
+.is-invalid {
+  border-color: #ff00ff !important;
+  box-shadow: 0 0 10px rgba(255, 0, 255, 0.3) !important;
+}

@@ -1,0 +1,229 @@
+<app-header></app-header>
+
+<div class="checkout-container">
+  <div class="container py-5">
+    <h1 class="neon-text mb-5 text-center animate-in">
+      <i class="bi bi-lock-fill me-2"></i>
+      CHECKOUT
+    </h1>
+
+    <div class="alert alert-danger glass-effect" *ngIf="error">
+      <i class="bi bi-exclamation-triangle me-2"></i>
+      {{ error }}
+    </div>
+
+    <div class="row">
+      <!-- Shipping Form -->
+      <div class="col-lg-8 mb-4">
+        <div class="card glass-effect">
+          <div class="card-body p-4">
+            <h4 class="text-gradient mb-4">
+              <i class="bi bi-truck me-2"></i>
+              Shipping Information
+            </h4>
+
+            <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="shippingFirstName" class="form-label">First Name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="shippingFirstName"
+                    formControlName="shippingFirstName"
+                    [class.is-invalid]="submitted && f['shippingFirstName'].errors"
+                    placeholder="John"
+                  />
+                  <div class="invalid-feedback" *ngIf="submitted && f['shippingFirstName'].errors">
+                    <div *ngIf="f['shippingFirstName'].errors['required']">First name is required</div>
+                  </div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                  <label for="shippingLastName" class="form-label">Last Name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="shippingLastName"
+                    formControlName="shippingLastName"
+                    [class.is-invalid]="submitted && f['shippingLastName'].errors"
+                    placeholder="Doe"
+                  />
+                  <div class="invalid-feedback" *ngIf="submitted && f['shippingLastName'].errors">
+                    <div *ngIf="f['shippingLastName'].errors['required']">Last name is required</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="shippingAddressLine1" class="form-label">Address Line 1</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="shippingAddressLine1"
+                  formControlName="shippingAddressLine1"
+                  [class.is-invalid]="submitted && f['shippingAddressLine1'].errors"
+                  placeholder="123 Main Street"
+                />
+                <div class="invalid-feedback" *ngIf="submitted && f['shippingAddressLine1'].errors">
+                  <div *ngIf="f['shippingAddressLine1'].errors['required']">Address is required</div>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="shippingAddressLine2" class="form-label">Address Line 2 (Optional)</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="shippingAddressLine2"
+                  formControlName="shippingAddressLine2"
+                  placeholder="Apartment, suite, etc."
+                />
+              </div>
+
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="shippingCity" class="form-label">City</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="shippingCity"
+                    formControlName="shippingCity"
+                    [class.is-invalid]="submitted && f['shippingCity'].errors"
+                    placeholder="New York"
+                  />
+                  <div class="invalid-feedback" *ngIf="submitted && f['shippingCity'].errors">
+                    <div *ngIf="f['shippingCity'].errors['required']">City is required</div>
+                  </div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                  <label for="shippingState" class="form-label">State</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="shippingState"
+                    formControlName="shippingState"
+                    [class.is-invalid]="submitted && f['shippingState'].errors"
+                    placeholder="NY"
+                  />
+                  <div class="invalid-feedback" *ngIf="submitted && f['shippingState'].errors">
+                    <div *ngIf="f['shippingState'].errors['required']">State is required</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="shippingZipCode" class="form-label">ZIP Code</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="shippingZipCode"
+                    formControlName="shippingZipCode"
+                    [class.is-invalid]="submitted && f['shippingZipCode'].errors"
+                    placeholder="10001"
+                  />
+                  <div class="invalid-feedback" *ngIf="submitted && f['shippingZipCode'].errors">
+                    <div *ngIf="f['shippingZipCode'].errors['required']">ZIP code is required</div>
+                    <div *ngIf="f['shippingZipCode'].errors['pattern']">Must be 5 digits</div>
+                  </div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                  <label for="shippingPhone" class="form-label">Phone Number</label>
+                  <input
+                    type="tel"
+                    class="form-control"
+                    id="shippingPhone"
+                    formControlName="shippingPhone"
+                    [class.is-invalid]="submitted && f['shippingPhone'].errors"
+                    placeholder="5551234567"
+                  />
+                  <div class="invalid-feedback" *ngIf="submitted && f['shippingPhone'].errors">
+                    <div *ngIf="f['shippingPhone'].errors['required']">Phone number is required</div>
+                    <div *ngIf="f['shippingPhone'].errors['pattern']">Must be 10 digits</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mb-4">
+                <label for="customerNotes" class="form-label">Order Notes (Optional)</label>
+                <textarea
+                  class="form-control"
+                  id="customerNotes"
+                  formControlName="customerNotes"
+                  rows="3"
+                  placeholder="Any special instructions..."
+                ></textarea>
+              </div>
+
+              <button
+                type="submit"
+                class="btn btn-primary w-100 btn-lg"
+                [disabled]="loading"
+              >
+                <span *ngIf="!loading">
+                  <i class="bi bi-check-circle me-2"></i>
+                  Place Order
+                </span>
+                <span *ngIf="loading">
+                  <span class="spinner-border spinner-border-sm me-2"></span>
+                  Processing...
+                </span>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Order Summary -->
+      <div class="col-lg-4">
+        <div class="card glass-effect sticky-top" style="top: 100px;">
+          <div class="card-body p-4">
+            <h4 class="text-gradient mb-4">Order Summary</h4>
+
+            <div class="summary-row">
+              <span class="text-secondary">Subtotal</span>
+              <span class="neon-text">\${{ summary.subtotal | number:'1.2-2' }}</span>
+            </div>
+
+            <div class="summary-row">
+              <span class="text-secondary">Shipping</span>
+              <span class="neon-text">\${{ summary.shipping | number:'1.2-2' }}</span>
+            </div>
+
+            <div class="summary-row">
+              <span class="text-secondary">Tax</span>
+              <span class="neon-text">\${{ summary.tax | number:'1.2-2' }}</span>
+            </div>
+
+            <hr class="my-3" style="border-color: rgba(0, 240, 255, 0.3);">
+
+            <div class="summary-row total">
+              <span class="text-gradient">Total</span>
+              <span class="neon-text total-price">\${{ summary.total | number:'1.2-2' }}</span>
+            </div>
+
+            <div class="mt-4 p-3 glass-effect rounded">
+              <div class="d-flex align-items-center mb-2">
+                <i class="bi bi-shield-check text-success me-2"></i>
+                <small class="text-secondary">Secure Payment</small>
+              </div>
+              <div class="d-flex align-items-center mb-2">
+                <i class="bi bi-truck text-primary me-2"></i>
+                <small class="text-secondary">Free Returns</small>
+              </div>
+              <div class="d-flex align-items-center">
+                <i class="bi bi-headset text-info me-2"></i>
+                <small class="text-secondary">24/7 Support</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

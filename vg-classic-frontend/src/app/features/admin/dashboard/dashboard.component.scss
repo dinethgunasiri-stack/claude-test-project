@@ -1,0 +1,20 @@
+.admin-container {
+  min-height: calc(100vh - 150px);
+}
+
+.stat-card {
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(0, 240, 255, 0.4);
+  }
+
+  i {
+    transition: transform 0.3s ease;
+  }
+
+  &:hover i {
+    transform: scale(1.2);
+  }
+}

@@ -1,0 +1,70 @@
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+  <div class="container">
+    <a class="navbar-brand neon-text" routerLink="/products">
+      <i class="bi bi-lightning-charge-fill"></i>
+      VG CLASSIC
+    </a>
+
+    <button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed"
+            [attr.aria-expanded]="!isMenuCollapsed" aria-controls="navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" [class.show]="!isMenuCollapsed" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-center">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/products" routerLinkActive="active">
+            <i class="bi bi-grid-3x3-gap-fill me-1"></i>
+            Products
+          </a>
+        </li>
+
+        <ng-container *ngIf="authService.isAuthenticated; else notLoggedIn">
+          <li class="nav-item">
+            <a class="nav-link position-relative" routerLink="/cart" routerLinkActive="active">
+              <i class="bi bi-cart3 me-1"></i>
+              Cart
+              <span class="badge bg-danger position-absolute top-0 start-100 translate-middle" *ngIf="itemCount > 0">
+                {{ itemCount }}
+              </span>
+            </a>
+          </li>
+
+          <li class="nav-item" *ngIf="authService.isAdmin">
+            <a class="nav-link" routerLink="/admin" routerLinkActive="active">
+              <i class="bi bi-speedometer2 me-1"></i>
+              Admin
+            </a>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+              <i class="bi bi-person-circle me-1"></i>
+              {{ (currentUser$ | async)?.firstName }}
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end glass-effect">
+              <li><a class="dropdown-item" href="#"><i class="bi bi-box-seam me-2"></i>My Orders</a></li>
+              <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Profile</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item text-danger" (click)="logout()"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+            </ul>
+          </li>
+        </ng-container>
+
+        <ng-template #notLoggedIn>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/auth/login" routerLinkActive="active">
+              <i class="bi bi-box-arrow-in-right me-1"></i>
+              Login
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="btn btn-primary btn-sm ms-2" routerLink="/auth/register">
+              Register
+            </a>
+          </li>
+        </ng-template>
+      </ul>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,117 @@
+.product-detail-container {
+  min-height: calc(100vh - 150px);
+}
+
+.breadcrumb {
+  background: rgba(10, 14, 39, 0.5);
+  border-radius: 10px;
+  padding: 1rem 1.5rem;
+
+  a {
+    color: #00f0ff;
+    text-decoration: none;
+    transition: all 0.3s ease;
+
+    &:hover {
+      text-shadow: 0 0 10px #00f0ff;
+    }
+  }
+
+  .active {
+    color: #a0a0b0;
+  }
+}
+
+.main-image {
+  position: relative;
+  border-radius: 15px;
+  overflow: hidden;
+  height: 500px;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .badge-featured {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, #ff00ff, #00f0ff);
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+}
+
+.image-thumbnails {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  flex-wrap: wrap;
+
+  .thumbnail {
+    width: 80px;
+    height: 80px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    &:hover,
+    &.active {
+      border-color: #00f0ff;
+      box-shadow: 0 0 15px rgba(0, 240, 255, 0.5);
+    }
+  }
+}
+
+.price-section {
+  .price {
+    font-size: 2.5rem;
+    font-weight: 700;
+  }
+
+  .compare-price {
+    font-size: 1.5rem;
+  }
+}
+
+.rating {
+  font-size: 1.1rem;
+
+  i {
+    font-size: 1.3rem;
+  }
+}
+
+.variants {
+  .btn-outline-primary {
+    &.active {
+      background: #00f0ff;
+      color: #0a0e27;
+      border-color: #00f0ff;
+      box-shadow: 0 0 15px rgba(0, 240, 255, 0.5);
+    }
+  }
+}
+
+.quantity-input {
+  .form-control {
+    background: rgba(10, 14, 39, 0.5);
+    border-color: rgba(0, 240, 255, 0.3);
+    color: #fff;
+  }
+
+  .btn {
+    border-color: rgba(0, 240, 255, 0.3);
+  }
+}

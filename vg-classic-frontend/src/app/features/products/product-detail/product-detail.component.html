@@ -1,0 +1,157 @@
+<app-header></app-header>
+
+<div class="product-detail-container">
+  <div class="container py-5">
+    <!-- Loading -->
+    <app-loading *ngIf="loading"></app-loading>
+
+    <!-- Error -->
+    <div class="alert alert-danger glass-effect" *ngIf="error">
+      <i class="bi bi-exclamation-triangle me-2"></i>
+      {{ error }}
+      <button class="btn btn-primary btn-sm ms-3" routerLink="/products">
+        Back to Products
+      </button>
+    </div>
+
+    <!-- Product Detail -->
+    <div *ngIf="product && !loading">
+      <!-- Breadcrumb -->
+      <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a routerLink="/products">Products</a></li>
+          <li class="breadcrumb-item active">{{ product.name }}</li>
+        </ol>
+      </nav>
+
+      <div class="row">
+        <!-- Images -->
+        <div class="col-lg-6 mb-4">
+          <div class="card glass-effect">
+            <div class="main-image">
+              <img
+                [src]="product.images[selectedImage] || 'https://via.placeholder.com/600x700?text=No+Image'"
+                [alt]="product.name"
+                class="img-fluid"
+              />
+              <span class="badge badge-featured" *ngIf="product.isFeatured">
+                <i class="bi bi-star-fill"></i> Featured
+              </span>
+            </div>
+            <div class="image-thumbnails" *ngIf="product.images.length > 1">
+              <div
+                *ngFor="let image of product.images; let i = index"
+                class="thumbnail"
+                [class.active]="i === selectedImage"
+                (click)="selectImage(i)"
+              >
+                <img [src]="image" [alt]="product.name">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Details -->
+        <div class="col-lg-6">
+          <div class="card glass-effect p-4">
+            <h1 class="neon-text mb-3">{{ product.name }}</h1>
+
+            <div class="mb-3">
+              <span class="badge bg-dark me-2">{{ product.categoryName }}</span>
+              <span class="badge bg-dark">{{ product.brand }}</span>
+            </div>
+
+            <div class="price-section mb-4">
+              <span class="price neon-text">\${{ product.price }}</span>
+              <span class="compare-price text-secondary ms-3" *ngIf="product.compareAtPrice">
+                <del>\${{ product.compareAtPrice }}</del>
+              </span>
+            </div>
+
+            <div class="rating mb-4" *ngIf="product.averageRating > 0">
+              <i class="bi bi-star-fill text-warning"></i>
+              <span class="ms-2">{{ product.averageRating | number:'1.1-1' }}</span>
+              <span class="text-secondary ms-2">({{ product.reviewCount }} reviews)</span>
+            </div>
+
+            <p class="lead text-secondary mb-4">{{ product.description }}</p>
+
+            <!-- Variants -->
+            <div class="variants mb-4" *ngIf="product.variants && product.variants.length > 0">
+              <h5 class="text-gradient mb-3">Select Variant:</h5>
+              <div class="d-flex flex-wrap gap-2">
+                <button
+                  *ngFor="let variant of product.variants"
+                  class="btn btn-outline-primary"
+                  [class.active]="selectedVariantId === variant.id"
+                  [disabled]="!variant.isInStock"
+                  (click)="selectVariant(variant.id)"
+                >
+                  <span *ngIf="variant.size">{{ variant.size }}</span>
+                  <span *ngIf="variant.color"> - {{ variant.color }}</span>
+                  <span *ngIf="!variant.isInStock" class="text-danger ms-2">(Out of Stock)</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Quantity -->
+            <div class="quantity-section mb-4">
+              <h5 class="text-gradient mb-3">Quantity:</h5>
+              <div class="input-group quantity-input" style="max-width: 150px;">
+                <button class="btn btn-secondary" (click)="decreaseQuantity()">
+                  <i class="bi bi-dash"></i>
+                </button>
+                <input type="number" class="form-control text-center" [(ngModel)]="quantity" min="1" max="10" readonly>
+                <button class="btn btn-secondary" (click)="increaseQuantity()">
+                  <i class="bi bi-plus"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Stock Info -->
+            <div class="mb-4">
+              <span class="badge" [class.bg-success]="product.stockQuantity > 0" [class.bg-danger]="product.stockQuantity === 0">
+                <i class="bi" [class.bi-check-circle]="product.stockQuantity > 0" [class.bi-x-circle]="product.stockQuantity === 0"></i>
+                {{ product.stockQuantity > 0 ? 'In Stock' : 'Out of Stock' }}
+              </span>
+              <span class="text-secondary ms-2" *ngIf="product.stockQuantity > 0">
+                {{ product.stockQuantity }} items available
+              </span>
+            </div>
+
+            <!-- Add to Cart Button -->
+            <div class="d-grid gap-2 mb-3">
+              <button
+                class="btn btn-primary btn-lg"
+                [disabled]="product.stockQuantity === 0 || addingToCart"
+                (click)="addToCart()"
+              >
+                <span *ngIf="!addingToCart">
+                  <i class="bi bi-cart-plus me-2"></i>
+                  Add to Cart
+                </span>
+                <span *ngIf="addingToCart">
+                  <span class="spinner-border spinner-border-sm me-2"></span>
+                  Adding...
+                </span>
+              </button>
+            </div>
+
+            <!-- SKU -->
+            <div class="text-secondary small">
+              <strong>SKU:</strong> {{ product.sku }}
+            </div>
+          </div>
+
+          <!-- Product Details -->
+          <div class="card glass-effect p-4 mt-4">
+            <h5 class="text-gradient mb-3">Product Details</h5>
+            <p class="text-secondary">{{ product.detailedDescription }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

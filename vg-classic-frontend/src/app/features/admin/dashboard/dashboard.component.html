@@ -1,0 +1,135 @@
+<app-header></app-header>
+
+<div class="admin-container">
+  <div class="container py-5">
+    <h1 class="neon-text mb-5 text-center animate-in">
+      <i class="bi bi-speedometer2 me-2"></i>
+      ADMIN DASHBOARD
+    </h1>
+
+    <!-- Statistics Cards -->
+    <div class="row mb-5">
+      <div class="col-md-6 col-lg-3 mb-4">
+        <div class="card glass-effect stat-card animate-in">
+          <div class="card-body text-center">
+            <i class="bi bi-cart-check display-4 text-primary mb-3"></i>
+            <h3 class="neon-text">{{ stats.totalOrders }}</h3>
+            <p class="text-secondary mb-0">Total Orders</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-3 mb-4">
+        <div class="card glass-effect stat-card animate-in" style="animation-delay: 0.1s;">
+          <div class="card-body text-center">
+            <i class="bi bi-currency-dollar display-4 text-success mb-3"></i>
+            <h3 class="neon-text">\${{ stats.totalRevenue | number:'1.0-0' }}</h3>
+            <p class="text-secondary mb-0">Total Revenue</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-3 mb-4">
+        <div class="card glass-effect stat-card animate-in" style="animation-delay: 0.2s;">
+          <div class="card-body text-center">
+            <i class="bi bi-box-seam display-4 text-info mb-3"></i>
+            <h3 class="neon-text">{{ stats.totalProducts }}</h3>
+            <p class="text-secondary mb-0">Total Products</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-3 mb-4">
+        <div class="card glass-effect stat-card animate-in" style="animation-delay: 0.3s;">
+          <div class="card-body text-center">
+            <i class="bi bi-people display-4 text-warning mb-3"></i>
+            <h3 class="neon-text">{{ stats.totalCustomers }}</h3>
+            <p class="text-secondary mb-0">Total Customers</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row">
+      <div class="col-12 mb-4">
+        <div class="card glass-effect">
+          <div class="card-body p-4">
+            <h4 class="text-gradient mb-4">
+              <i class="bi bi-lightning-fill me-2"></i>
+              Quick Actions
+            </h4>
+
+            <div class="row">
+              <div class="col-md-6 col-lg-3 mb-3">
+                <button class="btn btn-primary w-100">
+                  <i class="bi bi-plus-circle me-2"></i>
+                  Add Product
+                </button>
+              </div>
+
+              <div class="col-md-6 col-lg-3 mb-3">
+                <button class="btn btn-secondary w-100">
+                  <i class="bi bi-box-seam me-2"></i>
+                  View Orders
+                </button>
+              </div>
+
+              <div class="col-md-6 col-lg-3 mb-3">
+                <button class="btn btn-success w-100">
+                  <i class="bi bi-people me-2"></i>
+                  Manage Users
+                </button>
+              </div>
+
+              <div class="col-md-6 col-lg-3 mb-3">
+                <button class="btn btn-info w-100">
+                  <i class="bi bi-graph-up me-2"></i>
+                  View Reports
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="row">
+      <div class="col-12">
+        <div class="card glass-effect">
+          <div class="card-body p-4">
+            <h4 class="text-gradient mb-4">
+              <i class="bi bi-clock-history me-2"></i>
+              Recent Activity
+            </h4>
+
+            <div class="alert alert-info glass-effect">
+              <i class="bi bi-info-circle me-2"></i>
+              <strong>Admin Panel Coming Soon!</strong>
+              <p class="mb-0 mt-2">
+                The full admin panel with product management, order management, and user management
+                features will be implemented based on your specific requirements.
+              </p>
+            </div>
+
+            <div class="text-center mt-4">
+              <p class="text-secondary">
+                You can expand this dashboard to include:
+              </p>
+              <ul class="list-unstyled text-secondary">
+                <li><i class="bi bi-check-circle text-success me-2"></i>Product CRUD operations</li>
+                <li><i class="bi bi-check-circle text-success me-2"></i>Order management</li>
+                <li><i class="bi bi-check-circle text-success me-2"></i>User management</li>
+                <li><i class="bi bi-check-circle text-success me-2"></i>Analytics and reports</li>
+                <li><i class="bi bi-check-circle text-success me-2"></i>Category management</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

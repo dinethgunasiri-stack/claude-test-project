@@ -1,0 +1,133 @@
+<app-header></app-header>
+
+<div class="cart-container">
+  <div class="container py-5">
+    <h1 class="neon-text mb-5 text-center animate-in">
+      <i class="bi bi-cart3 me-2"></i>
+      SHOPPING CART
+    </h1>
+
+    <!-- Loading -->
+    <app-loading *ngIf="loading"></app-loading>
+
+    <!-- Empty Cart -->
+    <div class="text-center py-5" *ngIf="!loading && (!cart || !cart.items || cart.items.length === 0)">
+      <div class="card glass-effect p-5">
+        <i class="bi bi-cart-x display-1 text-secondary mb-4"></i>
+        <h3 class="text-secondary mb-4">Your cart is empty</h3>
+        <p class="lead text-secondary mb-4">Add some products to get started</p>
+        <button class="btn btn-primary btn-lg" (click)="continueShopping()">
+          <i class="bi bi-arrow-left me-2"></i>
+          Continue Shopping
+        </button>
+      </div>
+    </div>
+
+    <!-- Cart Items -->
+    <div class="row" *ngIf="!loading && cart && cart.items && cart.items.length > 0">
+      <div class="col-lg-8 mb-4">
+        <div class="card glass-effect">
+          <div class="card-body p-4">
+            <div class="cart-item" *ngFor="let item of cart.items">
+              <div class="row align-items-center">
+                <div class="col-md-2 mb-3 mb-md-0">
+                  <img
+                    [src]="item.imageUrl || 'https://via.placeholder.com/150'"
+                    [alt]="item.productName"
+                    class="img-fluid rounded"
+                  />
+                </div>
+                <div class="col-md-4 mb-3 mb-md-0">
+                  <h5 class="text-gradient">{{ item.productName }}</h5>
+                  <div class="text-secondary small">
+                    <span *ngIf="item.variantSize">Size: {{ item.variantSize }}</span>
+                    <span *ngIf="item.variantColor" class="ms-2">Color: {{ item.variantColor }}</span>
+                  </div>
+                </div>
+                <div class="col-md-2 mb-3 mb-md-0 text-center">
+                  <div class="quantity-display">
+                    <span class="badge bg-primary">Qty: {{ item.quantity }}</span>
+                  </div>
+                </div>
+                <div class="col-md-2 mb-3 mb-md-0 text-center">
+                  <div class="price neon-text">\${{ item.price * item.quantity | number:'1.2-2' }}</div>
+                  <div class="text-secondary small">\${{ item.price }} each</div>
+                </div>
+                <div class="col-md-2 text-center">
+                  <button
+                    class="btn btn-danger btn-sm"
+                    (click)="removeItem(item.id)"
+                    [disabled]="removing[item.id]"
+                  >
+                    <span *ngIf="!removing[item.id]">
+                      <i class="bi bi-trash"></i>
+                    </span>
+                    <span *ngIf="removing[item.id]">
+                      <span class="spinner-border spinner-border-sm"></span>
+                    </span>
+                  </button>
+                </div>
+              </div>
+              <hr class="my-3" style="border-color: rgba(0, 240, 255, 0.2);">
+            </div>
+
+            <div class="text-center mt-4">
+              <button class="btn btn-secondary" (click)="continueShopping()">
+                <i class="bi bi-arrow-left me-2"></i>
+                Continue Shopping
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Order Summary -->
+      <div class="col-lg-4">
+        <div class="card glass-effect sticky-top" style="top: 100px;">
+          <div class="card-body p-4">
+            <h4 class="text-gradient mb-4">Order Summary</h4>
+
+            <div class="summary-row">
+              <span class="text-secondary">Items ({{ summary.itemCount }})</span>
+              <span class="neon-text">\${{ summary.subtotal | number:'1.2-2' }}</span>
+            </div>
+
+            <div class="summary-row">
+              <span class="text-secondary">Shipping</span>
+              <span class="neon-text">\${{ summary.shipping | number:'1.2-2' }}</span>
+            </div>
+
+            <div class="summary-row">
+              <span class="text-secondary">Tax (8%)</span>
+              <span class="neon-text">\${{ summary.tax | number:'1.2-2' }}</span>
+            </div>
+
+            <hr class="my-3" style="border-color: rgba(0, 240, 255, 0.3);">
+
+            <div class="summary-row total">
+              <span class="text-gradient">Total</span>
+              <span class="neon-text total-price">\${{ summary.total | number:'1.2-2' }}</span>
+            </div>
+
+            <button
+              class="btn btn-primary w-100 mt-4 btn-lg"
+              (click)="proceedToCheckout()"
+            >
+              <i class="bi bi-lock-fill me-2"></i>
+              Proceed to Checkout
+            </button>
+
+            <div class="text-center mt-3">
+              <small class="text-secondary">
+                <i class="bi bi-shield-check me-1"></i>
+                Secure Checkout
+              </small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

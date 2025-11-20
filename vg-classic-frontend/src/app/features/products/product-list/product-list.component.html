@@ -1,0 +1,126 @@
+<app-header></app-header>
+
+<div class="products-container">
+  <div class="container py-5">
+    <!-- Header -->
+    <div class="text-center mb-5 animate-in">
+      <h1 class="display-4 neon-text mb-3">PRODUCT CATALOG</h1>
+      <p class="lead text-secondary">Explore our futuristic fashion collection</p>
+    </div>
+
+    <!-- Search and Filters -->
+    <div class="row mb-4 animate-in">
+      <div class="col-md-6 mb-3">
+        <div class="input-group">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Search products..."
+            #searchInput
+            (keyup.enter)="onSearch(searchInput.value)"
+          />
+          <button class="btn btn-primary" (click)="onSearch(searchInput.value)">
+            <i class="bi bi-search"></i>
+          </button>
+        </div>
+      </div>
+      <div class="col-md-6 mb-3">
+        <div class="d-flex justify-content-md-end gap-2">
+          <button class="btn btn-secondary btn-sm" (click)="onSortChange('name')">
+            <i class="bi bi-sort-alpha-down me-1"></i>
+            Name
+          </button>
+          <button class="btn btn-secondary btn-sm" (click)="onSortChange('price')">
+            <i class="bi bi-sort-numeric-down me-1"></i>
+            Price
+          </button>
+          <button class="btn btn-secondary btn-sm" (click)="clearFilters()">
+            <i class="bi bi-x-circle me-1"></i>
+            Clear
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading -->
+    <app-loading *ngIf="loading"></app-loading>
+
+    <!-- Error -->
+    <div class="alert alert-danger glass-effect" *ngIf="error">
+      <i class="bi bi-exclamation-triangle me-2"></i>
+      {{ error }}
+    </div>
+
+    <!-- Products Grid -->
+    <div class="row" *ngIf="!loading && products.length > 0">
+      <div class="col-md-6 col-lg-4 col-xl-3 mb-4" *ngFor="let product of products">
+        <div class="card h-100 product-card animate-in">
+          <div class="card-img-wrapper">
+            <img
+              [src]="product.images[0] || 'https://via.placeholder.com/400x500?text=No+Image'"
+              class="card-img-top"
+              [alt]="product.name"
+            />
+            <span class="badge badge-featured" *ngIf="product.isFeatured">
+              <i class="bi bi-star-fill"></i> Featured
+            </span>
+          </div>
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title">{{ product.name }}</h5>
+            <p class="card-text text-secondary small flex-grow-1">
+              {{ product.description | slice:0:80 }}{{ product.description.length > 80 ? '...' : '' }}
+            </p>
+            <div class="mb-2">
+              <span class="badge bg-dark me-2">{{ product.categoryName }}</span>
+              <span class="badge bg-dark">{{ product.brand }}</span>
+            </div>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <div>
+                <span class="price neon-text">\${{ product.price }}</span>
+                <span class="compare-price text-secondary ms-2" *ngIf="product.compareAtPrice">
+                  <del>\${{ product.compareAtPrice }}</del>
+                </span>
+              </div>
+              <div class="rating" *ngIf="product.averageRating > 0">
+                <i class="bi bi-star-fill text-warning"></i>
+                <small class="ms-1">{{ product.averageRating | number:'1.1-1' }}</small>
+              </div>
+            </div>
+            <a [routerLink]="['/products', product.id]" class="btn btn-primary w-100">
+              <i class="bi bi-eye me-2"></i>
+              View Details
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- No Products -->
+    <div class="text-center py-5" *ngIf="!loading && products.length === 0">
+      <i class="bi bi-inbox display-1 text-secondary"></i>
+      <p class="lead text-secondary mt-3">No products found</p>
+      <button class="btn btn-primary" (click)="clearFilters()">Reset Filters</button>
+    </div>
+
+    <!-- Pagination -->
+    <nav *ngIf="totalPages > 1" class="mt-5">
+      <ul class="pagination justify-content-center">
+        <li class="page-item" [class.disabled]="filters.pageNumber === 1">
+          <a class="page-link" (click)="onPageChange(filters.pageNumber! - 1)">Previous</a>
+        </li>
+        <li
+          class="page-item"
+          *ngFor="let page of [].constructor(totalPages); let i = index"
+          [class.active]="filters.pageNumber === i + 1"
+        >
+          <a class="page-link" (click)="onPageChange(i + 1)">{{ i + 1 }}</a>
+        </li>
+        <li class="page-item" [class.disabled]="filters.pageNumber === totalPages">
+          <a class="page-link" (click)="onPageChange(filters.pageNumber! + 1)">Next</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>
+
+<app-footer></app-footer>
