@@ -33,4 +33,11 @@ public class AuthenticationController : ControllerBase
         var result = await _mediator.Send(command);
         return result.IsSuccess ? Ok(result) : Unauthorized(result);
     }
+
+    [AllowAnonymous]
+    public async Task<IActionResult> TestMethod(LoginCommand command)
+    {
+        var result = await _mediator.Send(command);
+        return result.IsSuccess ? Ok(result) : Unauthorized(result);
+    }
 }
