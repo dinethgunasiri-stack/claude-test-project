@@ -17,14 +17,15 @@ jobs:
     #   github.event.pull_request.user.login == 'external-contributor' ||
     #   github.event.pull_request.user.login == 'new-developer' ||
     #   github.event.pull_request.author_association == 'FIRST_TIME_CONTRIBUTOR'
-    
+
     runs-on: ubuntu-latest
+
     permissions:
       contents: read
       pull-requests: write
       issues: write
       id-token: write
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -35,9 +36,16 @@ jobs:
         id: claude-review
         uses: anthropics/claude-code-action@v1
         with:
-          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          # 🔐 Anthropic API key stored as GitHub secret
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+
+          # GitHub token so Claude can comment on PRs
           github_token: ${{ secrets.GITHUB_TOKEN }}
+
+          # Show Claude’s full output in the Actions log
           show_full_output: true
+
+          # Main review prompt
           prompt: |
             REPO: ${{ github.repository }}
             PR NUMBER: ${{ github.event.pull_request.number }}
@@ -51,25 +59,17 @@ jobs:
 
             Be constructive and helpful in your feedback.
 
-          # Optional: Supply CLI flags for models, max turns, system prompts, tool access, etc.
+          # Extra CLI arguments passed to `claude`
           claude_args: |
             --model sonnet
-          #   --allowedTools Bash(npm run test),Bash(npm run lint),Bash(npm run typecheck)
+            # You can also add e.g.:
+            # --max-turns 8
+            # --temperature 0.2
 
-          # Optional: Use sticky comments to make Claude reuse the same comment on subsequent pushes to the same PR
+          # Optional: Use sticky comments so the same top-level comment
+          # is updated instead of posting new ones on every push.
           # use_sticky_comment: true
-          
-          # Optional: Customize review based on file types
-          # prompt: |
-          #   REPO: ${{ github.repository }}
-          #   PR NUMBER: ${{ github.event.pull_request.number }}
-          #
-          #   Review this PR focusing on:
-          #   - For TypeScript files: Type safety and proper interface usage
-          #   - For API endpoints: Security, input validation, and error handling
-          #   - For React components: Performance, accessibility, and best practices
-          #   - For tests: Coverage, edge cases, and test quality
-          
+
           # Optional: Different prompts for different authors
           # prompt: |
           #   REPO: ${{ github.repository }}
@@ -78,8 +78,8 @@ jobs:
           #   ${{ github.event.pull_request.author_association == 'FIRST_TIME_CONTRIBUTOR' && 
           #   'Welcome! Please review this PR from a first-time contributor. Be encouraging and provide detailed explanations for any suggestions.' ||
           #   'Please provide a thorough code review focusing on our coding standards and best practices.' }}
-          
-          # Optional: Skip review for certain conditions
+
+          # Optional: Skip review for certain PR titles
           # if: |
           #   !contains(github.event.pull_request.title, '[skip-review]') &&
           #   !contains(github.event.pull_request.title, '[WIP]')
