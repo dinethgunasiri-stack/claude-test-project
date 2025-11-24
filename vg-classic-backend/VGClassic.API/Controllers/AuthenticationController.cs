@@ -15,6 +15,7 @@ public class AuthenticationController : ControllerBase
 
     public AuthenticationController(IMediator mediator)
     {
+        // just test PR
         _mediator = mediator;
     }
 
