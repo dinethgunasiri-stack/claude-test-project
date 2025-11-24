@@ -15,7 +15,6 @@ public class AuthenticationController : ControllerBase
 
     public AuthenticationController(IMediator mediator)
     {
-        //TODO just adding commet to update the PR
         _mediator = mediator;
     }
 
@@ -30,6 +29,13 @@ public class AuthenticationController : ControllerBase
     [HttpPost("login")]
     [AllowAnonymous]
     public async Task<IActionResult> Login(LoginCommand command)
+    {
+        var result = await _mediator.Send(command);
+        return result.IsSuccess ? Ok(result) : Unauthorized(result);
+    }
+
+    [AllowAnonymous]
+    public async Task<IActionResult> TestMethod(LoginCommand command)
     {
         var result = await _mediator.Send(command);
         return result.IsSuccess ? Ok(result) : Unauthorized(result);
